@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - '5672'

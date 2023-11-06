@@ -1,6 +1,5 @@
 package com.hotel.producer;
 
-import com.hotel.dto.FlightReservationDto;
 import com.hotel.dto.ReservationData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,5 @@
 package com.hotel.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hotel.dto.FlightReservationDto;
 import com.hotel.dto.HotelReservationDto;
 import com.hotel.dto.ReservationData;
 import com.hotel.entity.HotelReservation;
@@ -18,7 +14,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service

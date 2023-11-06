@@ -11,6 +11,7 @@
     <modules>
         <module>poc-saga-choreography</module>
         <module>poc-saga-choreography/poc-hotel-service</module>
+        <module>poc-saga-choreography/poc-flight-service</module>
     </modules>
 
 

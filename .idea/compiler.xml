@@ -9,11 +9,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="poc-hotel-service" />
         <module name="poc-saga-choreography" />
+        <module name="poc-flight-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="poc-microservice-pattern" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="poc-flight-service" options="-parameters" />
       <module name="poc-hotel-service" options="-parameters" />
     </option>
   </component>

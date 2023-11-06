@@ -14,9 +14,9 @@ public class FlightReservationProducer {
     private final RabbitTemplate rabbitTemplate;
 
     public void flightReservationSave(ReservationData reservationData){
-        log.info("[x] Requesting car booking({})", reservationData);
+        log.info("[x] Requesting flight reservation({})", reservationData);
         rabbitTemplate.convertAndSend("flight.reservation.exchange",
-                "flight.reservation", reservationData);
+                "flight.reservation.request", reservationData);
     }
 
 

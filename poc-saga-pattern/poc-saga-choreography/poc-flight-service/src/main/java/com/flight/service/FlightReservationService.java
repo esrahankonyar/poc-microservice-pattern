@@ -42,7 +42,7 @@ public class FlightReservationService {
             reservationData.getFlightReservationDto().setId(flightReservation.getId());
             rentalProducer.rentalSave(reservationData);
         }catch (Exception exception){
-            if(Objects.nonNull(flightReservationDto.getFlightId())){
+            if(Objects.nonNull(reservationData.getFlightReservationDto().getFlightId())){
                 flightReservationRepository.deleteById(flightReservationDto.getId());
             }
             hotelReservationProducer.abortHotelReservation(reservationData);

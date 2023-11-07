@@ -1,5 +1,7 @@
 package com.hotel.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotel.dto.HotelReservationDto;
 import com.hotel.dto.ReservationData;
 import com.hotel.entity.HotelReservation;
@@ -24,36 +26,37 @@ public class HotelReservationService {
     private final HotelReservationRepository hotelReservationRepository;
     private final FlightReservationProducer flightReservationProducer;
 
-    public void createHotelReservation(HotelReservationDto hotelReservationDto){
+    public void createHotelReservation(ReservationData reservationData ){
+        HotelReservationDto hotelReservationDto = reservationData.getHotelReservationDto();
         HotelReservation hotelReservation = new HotelReservation();
         BeanUtils.copyProperties(hotelReservationDto, hotelReservation);
         HotelReservation reservation = new HotelReservation();
         try {
             reservation = hotelReservationRepository.save(hotelReservation);
             BeanUtils.copyProperties(hotelReservation, hotelReservationDto);
-            ReservationData reservationData = new ReservationData();
             reservationData.setHotelReservationDto(hotelReservationDto);
             flightReservationProducer.flightReservationSave(reservationData);
         }catch (Exception exception){
             if(Objects.nonNull(reservation.getId())){
                 hotelReservationRepository.deleteById(reservation.getId());
             }
-            throw exception;
         }
     }
 
     @RabbitListener(
             bindings =
                     @QueueBinding(
-                            value = @Queue(value = "abort.hotel.reservation.request"),
-                            exchange = @Exchange(value = "abort.hotel.reservation")
+                            value = @Queue(value = "hotel.abort.request"),
+                            exchange = @Exchange(value = "hotel.exchange"),
+                            key = "hotel.abort"
                     )
     )
-    public void abortHotelReservation(ReservationData reservationData){
+    public void abortHotelReservation(String reservationData) throws JsonProcessingException {
         log.info("Hotel reservation is deleted cause of flight reservation aborted");
-        if (Objects.nonNull(reservationData.getHotelReservationDto())
-                && Objects.nonNull(reservationData.getHotelReservationDto().getHotelId())){
-            hotelReservationRepository.deleteById(reservationData.getHotelReservationDto().getId());
+        ReservationData abortHotelRequest = new ObjectMapper().readValue(reservationData, ReservationData.class);
+        if (Objects.nonNull(abortHotelRequest.getHotelReservationDto())
+                && Objects.nonNull(abortHotelRequest.getHotelReservationDto().getHotelId())){
+            hotelReservationRepository.deleteById(abortHotelRequest.getHotelReservationDto().getId());
         }
     }
 

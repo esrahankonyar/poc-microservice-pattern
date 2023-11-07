@@ -1,5 +1,7 @@
 package com.flight.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flight.dto.FlightReservationDto;
 import com.flight.dto.ReservationData;
 import com.flight.entity.FlightReservation;
@@ -26,28 +28,45 @@ public class FlightReservationService {
     private final HotelReservationProducer hotelReservationProducer;
     private final RentalProducer rentalProducer;
 
-    @RabbitListener(bindings =
-        @QueueBinding(
-            value = @Queue(value = "Flight.reservation.request"),
-            exchange = @Exchange(value = "flight.reservation.exchange"),
-                key = "flight.reservation"
-        )
+    @RabbitListener(
+            bindings =
+                @QueueBinding(
+                        value = @Queue(value = "flight.request"),
+                        exchange = @Exchange(value = "flight.exchange"),
+                        key = "flight"
+                )
     )
-    public void createFlightReservation (ReservationData reservationData){
-        FlightReservationDto flightReservationDto = reservationData.getFlightReservationDto();
+    public void createFlightReservation (String reservationData) throws JsonProcessingException {
+        ReservationData flightReservationData = new ObjectMapper().readValue(reservationData, ReservationData.class);
+        FlightReservationDto flightReservationDto = flightReservationData.getFlightReservationDto();
         FlightReservation entity = new FlightReservation();
         BeanUtils.copyProperties(flightReservationDto, entity);
         try {
             FlightReservation flightReservation = flightReservationRepository.save(entity);
-            reservationData.getFlightReservationDto().setId(flightReservation.getId());
-            rentalProducer.rentalSave(reservationData);
+            flightReservationData.getFlightReservationDto().setId(flightReservation.getId());
+            rentalProducer.rentalSave(flightReservationData);
         }catch (Exception exception){
-            if(Objects.nonNull(reservationData.getFlightReservationDto().getFlightId())){
+            if(Objects.nonNull(flightReservationData.getFlightReservationDto().getFlightId())){
                 flightReservationRepository.deleteById(flightReservationDto.getId());
             }
-            hotelReservationProducer.abortHotelReservation(reservationData);
+            hotelReservationProducer.abortHotelReservation(flightReservationData);
         }
 
+    }
+
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue("flight.abort.request"),
+                    exchange = @Exchange("flight.exchange"),
+                    key = "flight.abort"
+            )
+    )
+    public void abortFlight(String reservationData) throws JsonProcessingException {
+        ReservationData abortFlightRequest = new ObjectMapper().readValue(reservationData, ReservationData.class);
+        if(Objects.nonNull(abortFlightRequest.getFlightReservationDto().getId())){
+            flightReservationRepository.deleteById(abortFlightRequest.getFlightReservationDto().getId());
+        }
+        hotelReservationProducer.abortHotelReservation(abortFlightRequest);
     }
 
 

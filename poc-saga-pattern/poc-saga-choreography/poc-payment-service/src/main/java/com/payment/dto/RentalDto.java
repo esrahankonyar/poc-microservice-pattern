@@ -1,4 +1,4 @@
-package com.flight.dto;
+package com.payment.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class RentalDto{
+public class RentalDto {
     private Long id;
     private Long carId;
     private Long clientId;

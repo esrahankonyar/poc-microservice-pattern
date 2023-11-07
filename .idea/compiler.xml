@@ -10,6 +10,7 @@
         <module name="poc-hotel-service" />
         <module name="poc-saga-choreography" />
         <module name="poc-flight-service" />
+        <module name="poc-payment-service" />
         <module name="poc-rental-service" />
       </profile>
     </annotationProcessing>
@@ -21,6 +22,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="poc-flight-service" options="-parameters" />
       <module name="poc-hotel-service" options="-parameters" />
+      <module name="poc-payment-service" options="-parameters" />
       <module name="poc-rental-service" options="-parameters" />
     </option>
   </component>

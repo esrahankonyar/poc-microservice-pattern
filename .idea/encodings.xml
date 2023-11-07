@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/poc-saga-pattern/poc-saga-choreography/poc-flight-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/poc-saga-pattern/poc-saga-choreography/poc-hotel-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/poc-saga-pattern/poc-saga-choreography/poc-payment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/poc-saga-pattern/poc-saga-choreography/poc-rental-service/src/main/java" charset="UTF-8" />
   </component>
 </project>

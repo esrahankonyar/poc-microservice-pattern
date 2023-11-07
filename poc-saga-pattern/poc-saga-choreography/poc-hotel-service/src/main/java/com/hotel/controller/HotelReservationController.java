@@ -1,6 +1,6 @@
 package com.hotel.controller;
 
-import com.hotel.dto.HotelReservationDto;
+import com.hotel.dto.ReservationData;
 import com.hotel.service.HotelReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +14,8 @@ public class HotelReservationController {
     HotelReservationService hotelReservationService;
 
     @PostMapping(value = "/reservation")
-    public void createHotelReservation (@RequestBody HotelReservationDto hotelReservationDto){
-        hotelReservationService.createHotelReservation(hotelReservationDto);
+    public void createHotelReservation (@RequestBody ReservationData reservationData){
+        hotelReservationService.createHotelReservation(reservationData);
     }
 
 }

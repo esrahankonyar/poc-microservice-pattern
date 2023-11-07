@@ -13,6 +13,7 @@
         <module>poc-saga-choreography/poc-hotel-service</module>
         <module>poc-saga-choreography/poc-flight-service</module>
         <module>poc-saga-choreography/poc-rental-service</module>
+        <module>poc-saga-choreography/poc-payment-service</module>
     </modules>
 
 

@@ -1,5 +1,7 @@
 package com.rental.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rental.dto.RentalDto;
 import com.rental.dto.ReservationData;
 import com.rental.entity.Rental;
@@ -32,23 +34,39 @@ public class RentalService {
             bindings = @QueueBinding(
                     value = @Queue(value = "rental.request"),
                     exchange = @Exchange(value = "rental.exchange"),
-                    key = "rental.request"
+                    key = "rental"
             )
     )
-    public void saveRental(ReservationData reservationData){
-        RentalDto rentalDto = reservationData.getRentalDto();
+    public void saveRental(String reservationData) throws JsonProcessingException {
+        ReservationData rentalReservationRequest = new ObjectMapper().readValue(reservationData, ReservationData.class);
+        RentalDto rentalDto = rentalReservationRequest.getRentalDto();
         Rental entity = new Rental();
         BeanUtils.copyProperties(rentalDto, entity);
         try {
             Rental rental = rentalRepository.save(entity);
-            reservationData.getRentalDto().setId(rental.getId());
-            paymentProducer.savePayment(reservationData);
+            rentalReservationRequest.getRentalDto().setId(rental.getId());
+            paymentProducer.savePayment(rentalReservationRequest);
         }catch (Exception ex){
-            if(Objects.nonNull(reservationData.getRentalDto().getId())){
-                rentalRepository.deleteById(reservationData.getRentalDto().getId());
+            if(Objects.nonNull(rentalReservationRequest.getRentalDto().getId())){
+                rentalRepository.deleteById(rentalReservationRequest.getRentalDto().getId());
             }
-            flightReservationProducer.abortFlightReservation(reservationData);
+            flightReservationProducer.abortFlightReservation(rentalReservationRequest);
         }
+    }
+
+    @RabbitListener(
+            bindings = @QueueBinding(
+                    value = @Queue("rental.abort.request"),
+                    exchange = @Exchange("rental.exchange"),
+                    key = "rental.abort"
+            )
+    )
+    public void abortRental(String reservationData) throws JsonProcessingException {
+        ReservationData abortRentalRequest = new ObjectMapper().readValue(reservationData, ReservationData.class);
+        if(Objects.nonNull(abortRentalRequest.getRentalDto().getId())){
+            rentalRepository.deleteById(abortRentalRequest.getRentalDto().getId());
+        }
+        flightReservationProducer.abortFlightReservation(abortRentalRequest);
     }
 
 }

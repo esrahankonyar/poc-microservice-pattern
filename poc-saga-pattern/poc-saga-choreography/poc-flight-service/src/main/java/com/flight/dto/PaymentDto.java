@@ -11,7 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class PaymentDto {
+public class PaymentDto{
     private Long id;
     private Long carReservationId;
     private Long airlineReservationId;

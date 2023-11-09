@@ -37,14 +37,20 @@ public class OrchestratorService {
         String nextStep = reservationData.getNextStep();
         if(Objects.equals("hotel-reservation", nextStep)){
             hotelReservationProducer.saveHotelReservationRequest(reservationRequest);
-        } else if (Objects.equals("flight-reservation", nextStep)
+            return;
+        }
+        if (Objects.equals("flight-reservation", nextStep)
                 && Objects.nonNull(reservationData.getHotelReservationDto().getId())) {
             flightReservationProducer.saveFlightReservation(reservationRequest);
-        } else if (Objects.equals("rental", nextStep)
+            return;
+        }
+        if (Objects.equals("rental", nextStep)
                 && Objects.nonNull(reservationData.getHotelReservationDto().getId())
                 && Objects.nonNull(reservationData.getFlightReservationDto().getId())) {
             rentalProducer.saveRentalRequest(reservationRequest);
-        }  else if (Objects.equals("payment", nextStep)
+            return;
+        }
+        if (Objects.equals("payment", nextStep)
                 && Objects.nonNull(reservationData.getHotelReservationDto().getId())
                 && Objects.nonNull(reservationData.getFlightReservationDto().getId())
                 && Objects.nonNull(reservationData.getRentalDto().getId())) {
@@ -64,9 +70,13 @@ public class OrchestratorService {
         String nextStep = abortReservationData.getNextStep();
         if(Objects.equals("abort-hotel-reservation", nextStep)){
             hotelReservationProducer.abortHotelReservationRequest(abortReservationRequest);
-        } else if (Objects.equals("abort-flight-reservation", nextStep)) {
+            return;
+        }
+        if (Objects.equals("abort-flight-reservation", nextStep)) {
             flightReservationProducer.abortFlightReservation(abortReservationRequest);
-        } else if (Objects.equals("abort-rental", nextStep)) {
+            return;
+        }
+        if (Objects.equals("abort-rental", nextStep)) {
             rentalProducer.abortRentalRequest(abortReservationRequest);
         }
     }

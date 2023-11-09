@@ -1,4 +1,4 @@
-package com.hotel.dto;
+package com.flight.dto;
 
 import lombok.Data;
 

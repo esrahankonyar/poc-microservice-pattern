@@ -14,6 +14,7 @@
         <module name="poc-payment-service" />
         <module name="poc-rental-service" />
         <module name="poc-orch-hotel-service" />
+        <module name="poc-orch-flight-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -24,6 +25,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="poc-flight-service" options="-parameters" />
       <module name="poc-hotel-service" options="-parameters" />
+      <module name="poc-orch-flight-service" options="-parameters" />
       <module name="poc-orch-hotel-service" options="-parameters" />
       <module name="poc-orchestrator-service" options="-parameters" />
       <module name="poc-payment-service" options="-parameters" />

@@ -1,0 +1,34 @@
+server:
+  port: 8092
+  servlet:
+    contextPath: /flight
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/reservation_dev?createDatabaseIfNotExist=true
+    username: root
+    password: root
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 3
+        prefetch: 5
+        concurrency: 5
+        max-concurrency: 10
+    virtual-host: /
+  jpa:
+    hibernate:
+      ddl-auto: update
+      default_schema: reservation_dev
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      format_sql: true
+      show_sql: true
+      use_sql_comments: true
+    open-in-view: false

@@ -15,6 +15,7 @@
         <module>poc-orchestrator-service</module>
         <module>poc-orch-hotel-service</module>
         <module>poc-orch-flight-service</module>
+        <module>poc-orch-rental-service</module>
     </modules>
 
 

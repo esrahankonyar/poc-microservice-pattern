@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="poc-saga-choreography" />
+        <module name="poc-orch-rental-service" />
         <module name="poc-hotel-service" />
         <module name="poc-orchestrator-service" />
         <module name="poc-flight-service" />
@@ -27,6 +28,7 @@
       <module name="poc-hotel-service" options="-parameters" />
       <module name="poc-orch-flight-service" options="-parameters" />
       <module name="poc-orch-hotel-service" options="-parameters" />
+      <module name="poc-orch-rental-service" options="-parameters" />
       <module name="poc-orchestrator-service" options="-parameters" />
       <module name="poc-payment-service" options="-parameters" />
       <module name="poc-rental-service" options="-parameters" />

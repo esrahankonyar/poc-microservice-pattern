@@ -52,7 +52,7 @@ public class FlightReservationService {
             bindings = @QueueBinding(
                     value = @Queue("flight.abort.request"),
                     exchange = @Exchange("flight.exchange"),
-                    key = "abort.flight"
+                    key = "flight.abort"
             )
     )
     public void abortFlightReservation(String reservationData) throws JsonProcessingException {

@@ -55,7 +55,7 @@ public class OrchestratorService {
     @RabbitListener(
             bindings = @QueueBinding(
                     value = @Queue("abort.reservation.operation.request"),
-                    exchange = @Exchange("abort.reservation.operation"),
+                    exchange = @Exchange("reservation.operation"),
                     key = "abort.reservation"
             )
     )
